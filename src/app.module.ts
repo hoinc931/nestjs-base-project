@@ -4,6 +4,9 @@ import { MongooseModule } from '@nestjs/mongoose';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { UsersModule } from './modules/users/users.module';
+import { RolesModule } from './modules/roles/roles.module';
+import { ValidationErrorFilter } from './helpers/filters/validation-error.filter';
 
 @Module({
   imports: [
@@ -18,8 +21,17 @@ import { AppService } from './app.service';
       }),
       inject: [ConfigService],
     }),
+    UsersModule,
+    RolesModule,
   ],
   controllers: [AppController],
-  providers: [AppService, ConfigService],
+  providers: [
+    AppService,
+    ConfigService,
+    {
+      provide: 'APP_FILTER',
+      useClass: ValidationErrorFilter,
+    },
+  ],
 })
 export class AppModule {}

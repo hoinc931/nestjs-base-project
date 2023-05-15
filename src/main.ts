@@ -1,22 +1,34 @@
-import { ValidationPipe } from '@nestjs/common';
+import { ValidationError, ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { json, urlencoded } from 'express';
 
 import { AppModule } from './app.module';
+import { ValidationErrorException } from './helpers/exceptions/validation-error.exception';
 
 async function bootstrap() {
   const app: NestExpressApplication = await NestFactory.create(AppModule);
   const config: ConfigService = app.get<ConfigService>(ConfigService);
 
   const PORT: number = config.get<number>('PORT');
+  const APP_ENV: string = config.get<string>('NODE_ENV');
 
-  if (process.env.NODE_ENV === 'production') {
+  if (APP_ENV === 'production') {
     app.enable('trust proxy');
   }
 
-  app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+      transform: true,
+      forbidNonWhitelisted: true,
+      stopAtFirstError: true,
+      exceptionFactory: (errors: ValidationError[]) => {
+        return new ValidationErrorException(errors);
+      },
+    }),
+  );
 
   // limit data transfer
   app.use(json({ limit: '20mb' }));
@@ -29,6 +41,7 @@ async function bootstrap() {
   });
 
   await app.listen(PORT, () => {
+    console.log('App running with environment: ', APP_ENV);
     console.log('Nest app running at port: ', PORT);
   });
 }
