@@ -37,7 +37,7 @@ export class CreateUserDto {
     message: 'MINIMUM_CHARACTOR',
   })
   @Type(() => String)
-  readonly user_name: string;
+  readonly userName: string;
 
   @IsNotEmpty({
     message: 'REQUIRED',
@@ -49,7 +49,7 @@ export class CreateUserDto {
     message: 'MINIMUM_CHARACTOR',
   })
   @Type(() => String)
-  readonly first_name: string;
+  readonly firstName: string;
 
   @IsNotEmpty({
     message: 'REQUIRED',
@@ -61,7 +61,7 @@ export class CreateUserDto {
     message: 'MINIMUM_CHARACTOR',
   })
   @Type(() => String)
-  readonly last_name: string;
+  readonly lastName: string;
 
   @IsNotEmpty({
     message: 'REQUIRED',
@@ -78,7 +78,7 @@ export class CreateUserDto {
 
   @IsOptional()
   @IsDate()
-  readonly date_of_birth: Date;
+  readonly dateOfBirth: Date;
 
   @IsOptional()
   @MaxLength(12, {
@@ -88,7 +88,7 @@ export class CreateUserDto {
     message: 'MINIMUM_CHARACTOR',
   })
   @Type(() => String)
-  readonly phone_number: string;
+  readonly phoneNumber: string;
 
   @IsOptional()
   @IsEnum(UserGenderEnum)

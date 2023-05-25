@@ -34,7 +34,7 @@ export class Role extends BaseEntity {
   @Prop({
     default: false,
   })
-  is_default: boolean;
+  isDefault: boolean;
 }
 
 export const RoleSchema = SchemaFactory.createForClass(Role);

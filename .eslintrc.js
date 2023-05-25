@@ -23,5 +23,30 @@ module.exports = {
     '@typescript-eslint/no-explicit-any': 'off',
     // 'no-unused-vars': ['error', { 'vars': 'local', "ignoreRestSiblings": true }],
     semi: ["error", "always"],
+    camelcase: [
+      'error',
+      { properties: 'always', ignoreDestructuring: true, ignoreImports: true },
+    ],
+    'import/no-unresolved': 0,
+    // quotes: ['error', 'single'],
+    'import/no-cycle': 0,
+    'no-multiple-empty-lines': [
+      'error',
+      {
+        max: 1,
+        maxEOF: 1,
+      },
+    ],
+    'no-underscore-dangle': [
+      'error',
+      {
+        allow: ['_d', '_dh', '_h', '_id', '_m', '_n', '_t', '_text', '__REDUX_DEVTOOLS_EXTENSION_COMPOSE__'],
+      },
+    ],
+    'max-len': [2, 180],
+    'no-console': 0,
+    'no-nested-ternary': 0,
+    'consistent-return': 0,
+    'no-alert': 'error',
   },
 };
