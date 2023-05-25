@@ -8,8 +8,8 @@ export type UserDocument = HydratedDocument<User>;
 
 @Schema({
   timestamps: {
-    createdAt: 'created_at',
-    updatedAt: 'updated_at',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
   },
   toJSON: {
     getters: true,
@@ -23,7 +23,7 @@ export class User extends BaseEntity {
     minlength: 2,
     maxlength: 60,
   })
-  first_name: string;
+  firstName: string;
 
   @Prop({
     required: true,
@@ -31,7 +31,7 @@ export class User extends BaseEntity {
     minlength: 2,
     maxlength: 60,
   })
-  last_name: string;
+  lastName: string;
 
   @Prop({
     required: true,
@@ -49,7 +49,7 @@ export class User extends BaseEntity {
     minlength: 6,
     maxlength: 32,
   })
-  user_name: string;
+  userName: string;
 
   @Prop({
     required: true,
@@ -80,10 +80,10 @@ export class User extends BaseEntity {
   @Prop({
     match: /^([+]\d{2})?\d{10}$/,
   })
-  phone_number: string;
+  phoneNumber: string;
 
   @Prop()
-  date_of_birth: Date;
+  dateOfBirth: Date;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
