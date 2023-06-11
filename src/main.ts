@@ -4,6 +4,7 @@ import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { json, urlencoded } from 'express';
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 import { AppModule } from './app.module';
 import { ValidationErrorException } from './helpers/exceptions/validation-error.exception';
@@ -12,8 +13,10 @@ async function bootstrap() {
   const app: NestExpressApplication = await NestFactory.create(AppModule);
   const config: ConfigService = app.get<ConfigService>(ConfigService);
 
-  const PORT: number = config.get<number>('PORT');
-  const APP_ENV: string = config.get<string>('NODE_ENV');
+  console.log(config.get('DATABASE_URI'));
+
+  const PORT: number = config.get<number>('PORT') || 4002;
+  const APP_ENV: string = config.get<string>('NODE_ENV') || 'development';
 
   if (APP_ENV === 'production') {
     app.enable('trust proxy');
@@ -40,6 +43,15 @@ async function bootstrap() {
     origin:
       /^(http:\/\/localhost|(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))(:([0-9]|[1-9][0-9]|[1-9][0-9]{2}|[1-9][0-9]{3}|[1-5][0-9]{4}|6([0-4][0-9]{3}|5([0-4][0-9]{2}|5([0-2][0-9]|3[0-5])))))?$/i,
   });
+
+  // const swaggerConfig = new DocumentBuilder()
+  //   .setTitle('Cats example')
+  //   .setDescription('The cats API description')
+  //   .setVersion('1.0')
+  //   .addTag('cats')
+  //   .build();
+  // const document = SwaggerModule.createDocument(app, swaggerConfig);
+  // SwaggerModule.setup('api', app, document);
 
   await app.listen(PORT, () => {
     console.log('App running with environment: ', APP_ENV);
